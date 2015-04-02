@@ -18,7 +18,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/gpl-2.0.txt>.
 
 
-cookbook_file "/etc/yum.repos.d" do
+cookbook_file "/etc/yum.repos.d/jenkins.repo" do
   source "jenkins.repo"
 end
 
