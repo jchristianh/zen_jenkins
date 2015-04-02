@@ -47,3 +47,15 @@ end
 service "jenkins" do
   action [:enable, :start]
 end
+
+
+# Create Ruby Syntax Check Script:
+directory "/opt/bin" do
+  action :create
+  recursive true
+end
+
+cookbook_file "/opt/bin/ruby_syntax_check.pl" do
+  source "ruby_syntax_check.pl"
+  mode   "0755"
+end
