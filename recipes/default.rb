@@ -19,7 +19,15 @@
 
 
 # Install Jenkins Repo/GPG Key First:
-include_recipe "zen_jenkins::repo"
+cookbook_file "/etc/yum.repos.d/jenkins.repo" do
+  source "jenkins.repo"
+end
+
+
+execute "import-jenkins-key" do
+  command "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+  not_if "rpm -qa gpg-pubkey*|grep gpg-pubkey-d50582e6-4a3feef6"
+end
 
 
 # Install Packages:
