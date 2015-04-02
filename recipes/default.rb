@@ -57,4 +57,5 @@ end
 
 cookbook_file "/opt/bin/ruby_syntax_check.pl" do
   source "ruby_syntax_check.pl"
+  mode   "0755"
 end
