@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: zen_jenkins
-# Recipe:: default
+# Recipe:: repo
 #
 # Copyright (C) 2015 Chris Hammer <chris@thezengarden.net>
 #
@@ -18,24 +18,12 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/gpl-2.0.txt>.
 
 
-# Install Jenkins Repo/GPG Key First:
-include_recipe "zen_jenkins::repo"
-
-
-# Install Packages:
-pkg_list = [
-  'ruby','ruby-devel','rubygems-devel','zlib','zlib-devel',
-  'git','patch','java-1.7.0-openjdk','jenkins'
-]
-
-pkg_list.each do |pkg|
-  package pkg do
-    action :install
-  end
+cookbook_file "/etc/yum.repos.d" do
+  source "jenkins.repo"
 end
 
 
-# Enable/Start Jenkins
-service "jenkins" do
-  action [:enable, :start]
+execute "import-jenkins-key" do
+  command "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+  not_if "rpm -qa gpg-pubkey*|grep gpg-pubkey-d50582e6-4a3feef6"
 end
